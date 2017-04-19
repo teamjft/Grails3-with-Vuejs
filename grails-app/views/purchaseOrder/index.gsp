@@ -45,25 +45,25 @@
         </div>
         <table class="table">
             <thead>
-            <tr>
-                <th>Name</th>
-                <th>Profile</th>
-                <th>Age</th>
-                <th class="col-sm-2">Actions</th>
+            <tr class="row">
+                <th class="col-sm-3">Name</th>
+                <th class="col-sm-4">Profile</th>
+                <th class="col-sm-2">Age</th>
+                <th class="col-sm-3">Actions</th>
             </tr>
             </thead>
             <tbody>
-            <tr v-for="employee in filteredEmployees">
-                <td>
+            <tr class="row" v-for="employee in filteredEmployees">
+                <td class="col-sm-3">
                     <i class="icomoon icon-accessibility"></i>
                     <router-link :to="{name: 'employee', params: {employee_id: employee.id}}">{{ employee.name }}</router-link>
                 </td>
-                <td>{{ employee.profile }}</td>
-                <td>
+                <td class="col-sm-4">{{ employee.profile }}</td>
+                <td class="col-sm-2">
 
                     {{ employee.age }}
                 </td>
-                <td>
+                <td class="col-sm-3">
                     <router-link class="btn btn-warning btn-xs" :to="{name: 'employee-edit', params: {employee_id: employee.id}}">Edit</router-link>
                     <router-link class="btn btn-danger btn-xs" :to="{name: 'employee-delete', params: {employee_id: employee.id}}">Delete</router-link>
                 </td>
