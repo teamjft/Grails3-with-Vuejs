@@ -15,21 +15,22 @@
 <body>
 
 
-<div class="container">
-    <header class="page-header">
-        <div class="row">
+<div  class="container">
 
-            <div class="col-sm-4">
-                <h1>JFT Employee Portal</h1>
-            </div>
-        </div>
-    </header>
-    <div id="app"></div>
+    <div id="app">
+    </div>
 </div>
 
 <template id="employee-list">
-    <section>
 
+    <section>
+        <header class="page-header">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h1>Employee List</h1>
+                </div>
+            </div>
+        </header>
         <div class="filters row">
             <div class="form-group col-sm-3">
                 <label for="search-element">Employee name</label>
@@ -74,7 +75,13 @@
 
 <template id="add-employee">
     <section>
-        <h2>Add Employee</h2>
+        <header class="page-header">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h1>Add Employee</h1>
+                </div>
+            </div>
+        </header>
         <form v-on:submit="createEmployee">
             <div class="form-group">
                 <label for="add-name">Name</label>
@@ -96,20 +103,61 @@
 
 <template id="employee">
     <section>
-        <h2>{{ employee.name }}</h2>
-        <b>Profile: </b>
-        <div>{{ employee.profile }}</div>
-        <b>Age:</b>
-        <div>{{ employee.age }}</div>
-        <br/>
+    <header class="page-header">
+        <div class="row">
+            <div class="col-sm-4">
+                <h1>Employee Details</h1>
+            </div>
+        </div>
+    </header>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ employee.name }}</h3>
+        </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="https://us.123rf.com/450wm/nalinn/nalinn1504/nalinn150400243/38529377-green-alien-face-wearing-earphone--music-lover-alien-clipart-isolated-in-white.jpg?ver=6" class="img-circle img-responsive"> </div>
+            <div class=" col-md-9 col-lg-9 ">
+                <table class="table table-user-information">
+                    <tbody>
+                    <tr>
+                        <td>Empoyee Id:</td>
+                        <td>{{ employee.id }}</td>
+                    </tr>
+                    <tr>
+                        <td>Profile:</td>
+                        <td>{{ employee.profile }}</td>
+                    </tr>
+                    <tr>
+                        <td>Age</td>
+                        <td>{{ employee.age }}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
         <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
         <router-link to="/">Back to employee list</router-link>
+    </div>
+    </div>
     </section>
+
 </template>
 
 <template id="employee-edit">
+
     <section>
-        <h2>Edit Employee</h2>
+        <header class="page-header">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h1>Edit Employee</h1>
+                </div>
+            </div>
+        </header>
         <form v-on:submit="updateEmployee">
             <div class="form-group">
                 <label for="edit-name">Name</label>
@@ -130,8 +178,15 @@
 </template>
 
 <template id="employee-delete">
+
     <section>
-        <h2>Delete employee "{{ employee.name }}"</h2>
+        <header class="page-header">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h1>Confirm Delete</h1>
+                </div>
+            </div>
+        </header>
         <form v-on:submit="deleteEmployee">
             <p>The action cannot be undone.</p>
             <button type="submit" class="btn btn-danger">Delete</button>
