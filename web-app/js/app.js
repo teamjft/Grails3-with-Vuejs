@@ -17,22 +17,24 @@ function findEmployeeKey (employeeId) {
 var List = Vue.extend({
     template: '#employee-list',
     data: function () {
+        var result=  [];
         console.log("called.AJAX.")
         $.ajax({
             url: "/vue/employee/getEmployees",
             success: function (data) {
                 $.each(data, function (index, employee) {
-                    employees.push(employee);
+                    result.push(employee);
                 });
             }
         });
-        return {employees: employees,searchKey: ''};
+        employees = result
+        return {result: result,searchKey: ''};
     },
     computed : {
         filteredEmployees: function () {
             var self = this;
             console.log("called..")
-            return self.employees.filter(function (employee) {
+            return self.result.filter(function (employee) {
                 return employee.name.indexOf(self.searchKey) !== -1
             })
         }
@@ -49,21 +51,46 @@ var Employee = Vue.extend({
 var EmployeeEdit = Vue.extend({
     template: '#employee-edit',
     data: function () {
-        return {employee: findEmployee(this.$route.params.employee_id)};
+        return {employee: findEmployee(this.$route.params.employee_id),errorMessage:null};
     },
     methods: {
         updateEmployee: function () {
+            var _this = this;
             var employee = this.employee;
-            employees[findEmployeeKey(employee.id)] = {
-                id: employee.id,
-                name: employee.name,
-                profile: employee.profile,
-                age: employee.age
-            };
-            router.push('/');
+            $.ajax({
+                url: "/vue/employee/update",
+                type: "POST",
+                data:{
+                    id: employee.id,
+                    name: employee.name,
+                    profile: employee.profile,
+                    age: employee.age
+                },
+                success: function (data) {
+                    router.push({
+                        path: '/',
+                        params: { message: 'Successfully updated' }
+                    });
+                },
+                error:function (xhr, status, error) {
+                    console.log("message....... " + xhr.responseText);
+                    _this.errorMessage = xhr.responseText
+                }
+            });
+
+        }
+    },
+    computed:{
+        errorM: function () {
+            return this.errorMessage
         }
     }
 });
+
+Vue.component('flash-message', {
+    props: ['text'],
+    template: '<div class="alert alert-success">{{ text }}</div>'
+})
 
 var EmployeeDelete = Vue.extend({
     template: '#employee-delete',

@@ -23,6 +23,8 @@
 
 <template id="employee-list">
     <section>
+
+
         <header class="page-header">
             <div class="row">
                 <div class="col-sm-4">
@@ -150,6 +152,7 @@
 <template id="employee-edit">
 
     <section>
+
         <header class="page-header">
             <div class="row">
                 <div class="col-sm-4">
@@ -157,6 +160,7 @@
                 </div>
             </div>
         </header>
+        <flash-message v-if="errorMessage" v-bind:text="errorMessage"> </flash-message>
         <form v-on:submit="updateEmployee">
             <div class="form-group">
                 <label for="edit-name">Name</label>
