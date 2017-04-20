@@ -1,7 +1,5 @@
 var employees = [
-    {id: 1, name: 'Vivek', profile: 'Programmer from distant galaxy', age: 28},
-    {id: 2, name: 'Prashant', profile: 'Programmer and a time traveller', age: 28},
-    {id: 3, name: 'Saurabh', profile: 'UI Designer', age: 26}
+
 ];
 
 function findEmployee (employeeId) {
@@ -19,7 +17,16 @@ function findEmployeeKey (employeeId) {
 var List = Vue.extend({
     template: '#employee-list',
     data: function () {
-        return {employees: employees, searchKey: ''};
+        console.log("called.AJAX.")
+        $.ajax({
+            url: "/vue/employee/getEmployees",
+            success: function (data) {
+                $.each(data, function (index, employee) {
+                    employees.push(employee);
+                });
+            }
+        });
+        return {employees: employees,searchKey: ''};
     },
     computed : {
         filteredEmployees: function () {

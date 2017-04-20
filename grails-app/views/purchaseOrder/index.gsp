@@ -22,7 +22,6 @@
 </div>
 
 <template id="employee-list">
-
     <section>
         <header class="page-header">
             <div class="row">
