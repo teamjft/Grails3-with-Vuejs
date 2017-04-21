@@ -60,6 +60,7 @@ var EmployeeEdit = Vue.extend({
             $.ajax({
                 url: "/vue/employee/update",
                 type: "POST",
+                async:false,
                 data:{
                     id: employee.id,
                     name: employee.name,
@@ -78,6 +79,7 @@ var EmployeeEdit = Vue.extend({
                 }
             });
             if(_this.errorMessage!=null){
+                console.log("error called.......")
                 e.preventDefault();
             }
         }
