@@ -20,7 +20,7 @@ var List = Vue.extend({
         var result=  [];
         console.log("called.AJAX.")
         $.ajax({
-            url: "/vue/employee/getEmployees",
+            url: "/vue/api/getEmployees",
             success: function (data) {
                 $.each(data, function (index, employee) {
                     result.push(employee);
@@ -58,7 +58,7 @@ var EmployeeEdit = Vue.extend({
             var _this = this;
             var employee = this.employee;
             $.ajax({
-                url: "/vue/employee/update",
+                url: "/vue/api/updateEmployee",
                 type: "POST",
                 async:false,
                 data:{
@@ -78,10 +78,6 @@ var EmployeeEdit = Vue.extend({
                     _this.errorMessage = xhr.responseText
                 }
             });
-            if(_this.errorMessage!=null){
-                console.log("error called.......")
-                e.preventDefault();
-            }
         }
     }
 });

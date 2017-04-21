@@ -104,47 +104,47 @@
 
 <template id="employee">
     <section>
-    <header class="page-header">
-        <div class="row">
-            <div class="col-sm-4">
-                <h1>Employee Details</h1>
+        <header class="page-header">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h1>Employee Details</h1>
+                </div>
+            </div>
+        </header>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ employee.name }}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="https://us.123rf.com/450wm/nalinn/nalinn1504/nalinn150400243/38529377-green-alien-face-wearing-earphone--music-lover-alien-clipart-isolated-in-white.jpg?ver=6" class="img-circle img-responsive"> </div>
+                        <div class=" col-md-9 col-lg-9 ">
+                            <table class="table table-user-information">
+                                <tbody>
+                                <tr>
+                                    <td>Empoyee Id:</td>
+                                    <td>{{ employee.id }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Profile:</td>
+                                    <td>{{ employee.profile }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Age</td>
+                                    <td>{{ employee.age }}</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                <router-link to="/">Back to employee list</router-link>
             </div>
         </div>
-    </header>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{ employee.name }}</h3>
-        </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="https://us.123rf.com/450wm/nalinn/nalinn1504/nalinn150400243/38529377-green-alien-face-wearing-earphone--music-lover-alien-clipart-isolated-in-white.jpg?ver=6" class="img-circle img-responsive"> </div>
-            <div class=" col-md-9 col-lg-9 ">
-                <table class="table table-user-information">
-                    <tbody>
-                    <tr>
-                        <td>Empoyee Id:</td>
-                        <td>{{ employee.id }}</td>
-                    </tr>
-                    <tr>
-                        <td>Profile:</td>
-                        <td>{{ employee.profile }}</td>
-                    </tr>
-                    <tr>
-                        <td>Age</td>
-                        <td>{{ employee.age }}</td>
-                    </tr>
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
-        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-        <router-link to="/">Back to employee list</router-link>
-    </div>
-    </div>
     </section>
 
 </template>
