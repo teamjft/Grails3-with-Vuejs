@@ -1,5 +1,7 @@
 package vue
 
+import com.vue.Token
+import com.vue.User
 import grails.converters.JSON
 import grails.transaction.Transactional
 
@@ -7,6 +9,44 @@ import static org.springframework.http.HttpStatus.CREATED
 
 class ApiController {
 
+    def passwordEncoder
+
+    def login(){
+        def token=null
+        def role=null
+        //int min=30 //Token Expiry time in minutes
+        User user=User?.findByUsername(params.userName)
+        if(user){
+            if(passwordEncoder.isPasswordValid(user.password, params.password, null)){
+                token= UUID.randomUUID().toString()
+                role=user.getAuthorities().authority
+                Token tokens=new Token(token: token,tokenExpiryTime: new Date())
+                user.addToTokens(tokens)
+                if(user.validate()){
+                    user.save(failOnError: true)
+                    log.info("Token is saved to user Instance")
+                }
+                else{
+                    render(contentType: "text/json", text: (['success': false, 'message': 'Session Could not be created.Try Again'] as grails.converters.JSON))
+                }
+                log.info("login from mobile app successful")
+                render(contentType: 'text/json') {[
+                        'success':true,
+                        'user': user?.username,
+                        'role':role ,
+                        'token': token,
+                        'message':"Login successful"
+                ]}
+            }
+            else{
+                render(contentType: "text/json", text: (['success': false, 'message': 'User Name or Password does not match']  as grails.converters.JSON))
+            }
+        }
+        else{
+            render(contentType: "text/json", text: (['success': false, 'message': 'User Name or Password does not match']  as grails.converters.JSON))
+        }
+
+    }
 
 
     def getEmployees(Integer max) {
@@ -15,16 +55,8 @@ class ApiController {
         render employees as JSON
     }
 
-    def show(Employee employeeInstance) {
-        respond employeeInstance
-    }
-
-    def create() {
-        respond new Employee(params)
-    }
-
     @Transactional
-    def save(Employee employeeInstance) {
+    def saveEmployee(Employee employeeInstance) {
         if (employeeInstance == null) {
             notFound()
             return
@@ -37,18 +69,8 @@ class ApiController {
 
         employeeInstance.save flush: true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'employee.label', default: 'Employee'), employeeInstance.id])
-                redirect employeeInstance
-            }
-            '*' { respond employeeInstance, [status: CREATED] }
-        }
     }
 
-    def edit(Employee employeeInstance) {
-        respond employeeInstance
-    }
 
     @Transactional
     def updateEmployee(Employee employeeInstance) {

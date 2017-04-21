@@ -6,7 +6,7 @@ var List = Vue.extend({
     data: function () {
         return {username: '',password: ''};
     },
-    computed : {
+    methods : {
         login: function () {
 
         }

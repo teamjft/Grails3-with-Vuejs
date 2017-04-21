@@ -24,7 +24,7 @@
 <template id="auth">
 
         <div class="wrapper">
-            <form class="form-signin">
+            <form v-on:submit.prevent="login" class="form-signin">
                 <h2 class="form-signin-heading">Please login</h2>
                 <input type="text" class="form-control" name="username" placeholder="Email Address" required="" autofocus="" />
                 <input type="password" class="form-control" name="password" placeholder="Password" required=""/>
