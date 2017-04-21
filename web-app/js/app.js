@@ -54,7 +54,7 @@ var EmployeeEdit = Vue.extend({
         return {employee: findEmployee(this.$route.params.employee_id),errorMessage:null};
     },
     methods: {
-        updateEmployee: function () {
+        updateEmployee: function (e) {
             var _this = this;
             var employee = this.employee;
             $.ajax({
@@ -77,12 +77,9 @@ var EmployeeEdit = Vue.extend({
                     _this.errorMessage = xhr.responseText
                 }
             });
-
-        }
-    },
-    computed:{
-        errorM: function () {
-            return this.errorMessage
+            if(_this.errorMessage!=null){
+                e.preventDefault();
+            }
         }
     }
 });
