@@ -3,10 +3,13 @@ package vue
 import com.vue.Token
 import com.vue.User
 import grails.converters.JSON
+import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
 
 import static org.springframework.http.HttpStatus.CREATED
 
+
+@Secured('permitAll')
 class ApiController {
 
     def passwordEncoder
@@ -15,7 +18,7 @@ class ApiController {
         def token=null
         def role=null
         //int min=30 //Token Expiry time in minutes
-        User user=User?.findByUsername(params.userName)
+        User user=User?.findByUsername(params.username)
         if(user){
             if(passwordEncoder.isPasswordValid(user.password, params.password, null)){
                 token= UUID.randomUUID().toString()

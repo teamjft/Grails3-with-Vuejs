@@ -1,3 +1,6 @@
+import com.vue.Role
+import com.vue.User
+import com.vue.UserRole
 import vue.Employee
 
 class BootStrap {
@@ -6,6 +9,10 @@ class BootStrap {
 
         if(Employee.count==0){
             createEmployees()
+        }
+
+        if(User.count==0){
+            createUsers()
         }
     }
     def destroy = {
@@ -30,5 +37,13 @@ class BootStrap {
         employee3.name = "Saurabh"
         employee3.profile = "UI designer"
         employee3.save(flush: true)
+    }
+
+    def createUsers(){
+        Role adminRole = new Role(authority: 'ROLE_ADMIN')
+        adminRole.save(failOnError: true)
+        User user = new User(username: 'admin', password: 'admin', enabled: true).save(failOnError: true)
+        UserRole adminUserRole = new UserRole(user: user, role: adminRole)
+        adminUserRole.save(failOnError: true);
     }
 }

@@ -1,3 +1,54 @@
+const store = new Vuex.Store({
+    state: {
+        user: {
+            userName:'',
+            loggedInStatus: true,
+            authToken: ''
+        }
+    },
+    mutations: {
+    addWebToken: function(state, webToken){
+        state.user.authToken = webToken;
+    },
+    removeWebToken: function(state){
+        state.user.authToken = '';
+    }
+},
+actions: {
+    login: function(context, userInput){
+        $.ajax({
+            url: "/vue/api/login",
+            type: "POST",
+            async:false,
+            data:{
+                username:userInput.username,
+                password: userInput.password
+            },
+            success: function (data) {
+                // store the token in global variable ??
+
+                context.commit('addWebToken', webToken); // pass the webtoken as payload to the mutation
+
+                router.push({
+                    path: '/employeeList'
+                });
+            },
+            error:function (xhr, status, error) {
+
+                _this.errorMessage = xhr.responseText
+            }
+        });
+    },
+    logput: function(context){
+        //your logout functionality
+        context.commit('removeWebToken');
+    }
+}
+
+})
+
+
+
 var employees = [
 
 ];
@@ -48,6 +99,43 @@ var Employee = Vue.extend({
     }
 });
 
+var Login = Vue.extend({
+    template: '#auth',
+    data: function () {
+        return {username: '',password: '',errorMessage:''};
+    },
+    methods : {
+        login: function (e) {
+            var _this = this;
+            var employee = this.employee;
+            $.ajax({
+                url: "/vue/api/login",
+                type: "POST",
+                async:false,
+                data:{
+                    username:_this.username,
+                    password: _this.password
+                },
+                success: function (data) {
+                    console.log(data);
+                    if(data.success){
+                        router.push({
+                            path: '/employeeList',
+                            params: { message: 'Successfully updated' }
+                        });
+                    }else{
+                        _this.errorMessage = "Invalid Credentials"
+                    }
+                },
+                error:function (xhr, status, error) {
+                    console.log("message....... " + xhr.responseText);
+                    _this.errorMessage = xhr.responseText
+                }
+            });
+        }
+    }
+});
+
 var EmployeeEdit = Vue.extend({
     template: '#employee-edit',
     data: function () {
@@ -69,7 +157,7 @@ var EmployeeEdit = Vue.extend({
                 },
                 success: function (data) {
                     router.push({
-                        path: '/',
+                        path: '/employeeList',
                         params: { message: 'Successfully updated' }
                     });
                 },
@@ -95,7 +183,7 @@ var EmployeeDelete = Vue.extend({
     methods: {
         deleteEmployee: function () {
             employees.splice(findEmployeeKey(this.$route.params.employee_id), 1);
-            router.push('/');
+            router.push('/employeeList');
         }
     }
 });
@@ -115,13 +203,14 @@ var AddEmployee = Vue.extend({
                 profile: employee.profile,
                 age: employee.age
             });
-            router.push('/');
+            router.push('/employeeList');
         }
     }
 });
 
 var router = new VueRouter({
-    routes: [{path: '/', component: List},
+    routes: [{path: '/', component: Login},
+        {path: '/employeeList', component: List},
         {path: '/employee/:employee_id', component: Employee, name: 'employee'},
         {path: '/add-employee', component: AddEmployee},
         {path: '/employee/:employee_id/edit', component: EmployeeEdit, name: 'employee-edit'},
