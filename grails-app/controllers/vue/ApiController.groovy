@@ -15,29 +15,30 @@ class ApiController {
     def passwordEncoder
 
     def login(){
-        def token=null
+        def tokenString=null
         def role=null
         //int min=30 //Token Expiry time in minutes
         User user=User?.findByUsername(params.username)
         if(user){
             if(passwordEncoder.isPasswordValid(user.password, params.password, null)){
-                token= UUID.randomUUID().toString()
+                tokenString= UUID.randomUUID().toString()
                 role=user.getAuthorities().authority
-                Token tokens=new Token(token: token,tokenExpiryTime: new Date())
-                user.addToTokens(tokens)
+                Token token=new Token(token: tokenString,tokenExpiryTime: new Date())
+                user.addToTokens(token)
                 if(user.validate()){
-                    user.save(failOnError: true)
-                    log.info("Token is saved to user Instance")
+                    user.save(failOnError: true,flush: true)
+                    println "Token is saved to user Instance"
                 }
                 else{
                     render(contentType: "text/json", text: (['success': false, 'message': 'Session Could not be created.Try Again'] as grails.converters.JSON))
+                    return
                 }
                 log.info("login from mobile app successful")
                 render(contentType: 'text/json') {[
                         'success':true,
                         'user': user?.username,
                         'role':role ,
-                        'token': token,
+                        'token': tokenString,
                         'message':"Login successful"
                 ]}
             }
@@ -55,7 +56,17 @@ class ApiController {
     def getEmployees(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         def employees =  Employee.list(params)
-        render employees as JSON
+        if(employees.size()>0){
+            render(contentType: 'text/json') {[
+                    'employees':employees,
+                    'success':true,
+            ]}
+        }else{
+            render(contentType: 'text/json') {[
+                    'success':true,
+                    'message':"No employees found"
+            ]}
+        }
     }
 
     @Transactional

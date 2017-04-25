@@ -6,12 +6,14 @@ class ApiFilters {
 
 
     def filters = {
-        forMobileApp(controller: 'api', action: '*') {
+        forapi(controller: 'api', action: '*') {
             before = {
-                header( "Access-Control-Allow-Origin", "*" )
-
-                if (!actionName == 'login') {
+//                header( "Access-Control-Allow-Origin", "*" )
+                println "token......."
+                if (actionName != 'login') {
                     String token = request.getHeader("Authorization") ?: null
+                    println token
+                    println "token......."
                     def authToken = null
                     ///int min = 30 //Token expiry time in minutes
                     if (token != null) {
@@ -26,6 +28,7 @@ class ApiFilters {
                             render(contentType: "text/json", text: (['success': 'false', 'message': 'User does not exist'] as JSON))
                         }
                     } else {
+                        println "else..........."
                         render(contentType: "text/json", text: (['success': 'false', 'message': 'You are not a valid user'] as JSON))
                     }
                     return false

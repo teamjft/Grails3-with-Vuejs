@@ -19,6 +19,7 @@
     <script src="${resource(dir: 'js', file: 'vue.js')}"></script>
     <script src="${resource(dir: 'js', file: 'vue-router.js')}"></script>
     <script src="${resource(dir: 'js', file: 'vuex.js')}"></script>
+    <script src="${resource(dir: 'js', file: 'vuex-persistedstate.js')}"></script>
     <title>Vue App</title>
 </head>
 
@@ -97,7 +98,7 @@
 <template id="auth">
 
     <div class="wrapper">
-        <flash-message v-if="errorMessage" v-bind:text="errorMessage"> </flash-message>
+        <error-message v-if="errorMessage" v-bind:text="errorMessage"> </error-message>
         <form v-on:submit.prevent="login" class="form-signin">
             <h2 class="form-signin-heading">Please login</h2>
             <input type="text" class="form-control" v-model="username" name="username" placeholder="Email Address" required="" autofocus="" />
@@ -194,7 +195,7 @@
                 </div>
             </div>
         </header>
-        <flash-message v-if="errorMessage" v-bind:text="errorMessage"> </flash-message>
+        <error-message v-if="errorMessage" v-bind:text="errorMessage"> </error-message>
         <form v-on:submit.prevent="updateEmployee">
             <div class="form-group">
                 <label for="edit-name">Name</label>

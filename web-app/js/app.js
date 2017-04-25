@@ -6,48 +6,24 @@ const store = new Vuex.Store({
             authToken: ''
         }
     },
+
     mutations: {
-    addWebToken: function(state, webToken){
-        state.user.authToken = webToken;
+        addWebToken: function(state, webToken){
+            state.user.authToken = webToken;
+        },
+        removeWebToken: function(state){
+            state.user.authToken = '';
+        }
     },
-    removeWebToken: function(state){
-        state.user.authToken = '';
-    }
-},
-actions: {
-    login: function(context, userInput){
-        $.ajax({
-            url: "/vue/api/login",
-            type: "POST",
-            async:false,
-            data:{
-                username:userInput.username,
-                password: userInput.password
-            },
-            success: function (data) {
-                // store the token in global variable ??
+    methods:{
+        getToken:function (){
+            return  store.state.user.authToken;
 
-                context.commit('addWebToken', webToken); // pass the webtoken as payload to the mutation
-
-                router.push({
-                    path: '/employeeList'
-                });
-            },
-            error:function (xhr, status, error) {
-
-                _this.errorMessage = xhr.responseText
-            }
-        });
-    },
-    logput: function(context){
-        //your logout functionality
-        context.commit('removeWebToken');
-    }
-}
+        }
+    }/*,
+    plugins: [createPersistedState()]*/
 
 })
-
-
 
 var employees = [
 
@@ -72,13 +48,20 @@ var List = Vue.extend({
         console.log("called.AJAX.")
         $.ajax({
             url: "/vue/api/getEmployees",
+            headers: {
+                "Authorization": store.state.user.authToken
+            },
             success: function (data) {
-                $.each(data, function (index, employee) {
-                    result.push(employee);
-                });
+                if(data.success!="false"){
+                    $.each(data.employees, function (index, employee) {
+                        result.push(employee);
+                    });
+                }
             }
         });
         employees = result
+        console.log(result);
+        console.log("result..");
         return {result: result,searchKey: ''};
     },
     computed : {
@@ -119,6 +102,8 @@ var Login = Vue.extend({
                 success: function (data) {
                     console.log(data);
                     if(data.success){
+                        store.commit('addWebToken', data.token); // pass the webtoken as payload to the mutation
+                        console.log(store.state.user.authToken)
                         router.push({
                             path: '/employeeList',
                             params: { message: 'Successfully updated' }
@@ -170,9 +155,9 @@ var EmployeeEdit = Vue.extend({
     }
 });
 
-Vue.component('flash-message', {
+Vue.component('error-message', {
     props: ['text'],
-    template: '<div class="alert alert-success">{{ text }}</div>'
+    template: '<div class="alert alert-error">{{ text }}</div>'
 })
 
 var EmployeeDelete = Vue.extend({
