@@ -27,11 +27,26 @@
 
 
 <div class="container">
-
     <div id="app">
     </div>
 </div>
+<template id="nav">
 
+
+    <nav v-show="role === 'ROLE_ADMIN'" class="navbar navbar-inverse">
+
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">JFT Employee Portal </a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/employeeList">Home</a></li>
+                <li class="active"><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+</template>
 
 <template id="employee-list">
     <section>

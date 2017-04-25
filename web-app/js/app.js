@@ -15,6 +15,7 @@ const store = new Vuex.Store({
         },
         removeWebToken: function(state){
             state.user.authToken = '';
+            state.user.role = '';
         }
     },
     methods:{
@@ -165,7 +166,10 @@ Vue.component('error-message', {
 
 
 Vue.component('nav-bar', {
-    template: '<nav class="navbar navbar-inverse">        <div class="container-fluid">            <div class="navbar-header">                <a class="navbar-brand" href="#">JFT Employee Portal</a>            </div>            <ul class="nav navbar-nav">                <li class="active"><a href="/employeeList">Home</a></li>                <li class="active"><a href="/logout">Logout</a></li>            </ul>        </div>    </nav>'
+template: '#nav',
+    data: function(){
+        return {role:store.state.user.role};
+    }
 })
 
 

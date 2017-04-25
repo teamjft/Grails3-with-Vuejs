@@ -22,7 +22,7 @@ class ApiController {
         if(user){
             if(passwordEncoder.isPasswordValid(user.password, params.password, null)){
                 tokenString= UUID.randomUUID().toString()
-                role=user.getAuthorities().authority
+                role=user.getAuthorities().first().authority
                 Token token=new Token(token: tokenString,tokenExpiryTime: new Date())
                 user.addToTokens(token)
                 if(user.validate()){
