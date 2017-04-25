@@ -3,13 +3,15 @@ const store = new Vuex.Store({
         user: {
             userName:'',
             loggedInStatus: true,
-            authToken: ''
+            authToken: '',
+            role: ''
         }
     },
 
     mutations: {
-        addWebToken: function(state, webToken){
-            state.user.authToken = webToken;
+        addWebToken: function(state, data){
+            state.user.authToken = data.token;
+            state.user.role = data.role;
         },
         removeWebToken: function(state){
             state.user.authToken = '';
@@ -20,14 +22,15 @@ const store = new Vuex.Store({
             return  store.state.user.authToken;
 
         }
-    }/*,
-    plugins: [createPersistedState()]*/
+    }
 
 })
 
 var employees = [
 
 ];
+
+
 
 function findEmployee (employeeId) {
     return employees[findEmployeeKey(employeeId)];
@@ -102,7 +105,7 @@ var Login = Vue.extend({
                 success: function (data) {
                     console.log(data);
                     if(data.success){
-                        store.commit('addWebToken', data.token); // pass the webtoken as payload to the mutation
+                        store.commit('addWebToken', {token:data.token,role:data.role}); // pass the webtoken as payload to the mutation
                         console.log(store.state.user.authToken)
                         router.push({
                             path: '/employeeList',
@@ -159,6 +162,12 @@ Vue.component('error-message', {
     props: ['text'],
     template: '<div class="alert alert-error">{{ text }}</div>'
 })
+
+
+Vue.component('nav-bar', {
+    template: '<nav class="navbar navbar-inverse">        <div class="container-fluid">            <div class="navbar-header">                <a class="navbar-brand" href="#">JFT Employee Portal</a>            </div>            <ul class="nav navbar-nav">                <li class="active"><a href="/employeeList">Home</a></li>                <li class="active"><a href="/logout">Logout</a></li>            </ul>        </div>    </nav>'
+})
+
 
 var EmployeeDelete = Vue.extend({
     template: '#employee-delete',

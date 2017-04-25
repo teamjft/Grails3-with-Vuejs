@@ -19,7 +19,7 @@
     <script src="${resource(dir: 'js', file: 'vue.js')}"></script>
     <script src="${resource(dir: 'js', file: 'vue-router.js')}"></script>
     <script src="${resource(dir: 'js', file: 'vuex.js')}"></script>
-    <script src="${resource(dir: 'js', file: 'vuex-persistedstate.js')}"></script>
+    %{--<script src="${resource(dir: 'js', file: 'vuex-persistedstate.js')}"></script>--}%
     <title>Vue App</title>
 </head>
 
@@ -27,24 +27,15 @@
 
 
 <div class="container">
-%{--    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
 
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">JFT Employee Portal</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="/employeeList">Home</a></li>
-                <li class="active"><a href="/logout">Logout</a></li>
-            </ul>
-        </div>
-    </nav>--}%
     <div id="app">
     </div>
 </div>
 
+
 <template id="employee-list">
     <section>
+        <nav-bar></nav-bar>
 
         <header class="page-header">
             <div class="row">
