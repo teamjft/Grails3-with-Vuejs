@@ -71,25 +71,7 @@ class ApiController {
 
     @Transactional
     def saveEmployee(Employee employeeInstance) {
-        if (employeeInstance == null) {
-            notFound()
-            return
-        }
-
-        if (employeeInstance.hasErrors()) {
-            respond employeeInstance.errors, view: 'create'
-            return
-        }
-
-        employeeInstance.save flush: true
-
-    }
-
-
-    @Transactional
-    def updateEmployee(Employee employeeInstance) {
         try{
-
             if (employeeInstance.hasErrors()) {
                 response.status = 500
                 render('Error creating employee')
@@ -105,5 +87,50 @@ class ApiController {
         render('Employee successfully created')
         return
 
+    }
+
+
+    @Transactional
+    def updateEmployee() {
+
+        Employee employeeInstance= Employee.findById(params.id)
+        if(!employeeInstance){
+            response.status = 500
+            render('No employee found with the given ID')
+            return
+        }
+
+        try{
+            bindData(employeeInstance, params)
+            if (employeeInstance.hasErrors()) {
+                response.status = 500
+                render('Error updating employee')
+                return
+            }
+            employeeInstance.save flush: true,failOnError: true
+        }catch(Exception e){
+            response.status = 500
+            render('Error updating employee')
+            return
+        }
+        response.status = 200
+        render('Employee successfully updated')
+        return
+
+    }
+
+    @Transactional
+    def deleteEmployee(Employee employeeInstance){
+
+        if(!employeeInstance){
+            response.status = 500
+            render('No employee found with the given ID')
+            return
+        }
+
+        employeeInstance.delete()
+        response.status = 200
+        render('Employee successfully updated')
+        return
     }
 }

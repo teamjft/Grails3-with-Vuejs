@@ -41,8 +41,8 @@
                 <a class="navbar-brand" href="#">JFT Employee Portal </a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/employeeList">Home</a></li>
-                <li class="active"><a href="/logout">Logout</a></li>
+                <li class="active"><router-link :to="{path: '/employeeList'}">Home</router-link></li>
+                <li class="active"><router-link :to="{path: '/logout'}">Logout</router-link></li>
             </ul>
         </div>
     </nav>
@@ -51,7 +51,7 @@
 <template id="employee-list">
     <section>
         <nav-bar></nav-bar>
-
+        {{message}}
         <header class="page-header">
             <div class="row">
                 <div class="col-sm-4">
@@ -117,6 +117,8 @@
 
 <template id="add-employee">
     <section>
+        <nav-bar></nav-bar>
+
         <header class="page-header">
             <div class="row">
                 <div class="col-sm-4">
@@ -145,6 +147,8 @@
 
 <template id="employee">
     <section>
+        <nav-bar></nav-bar>
+
         <header class="page-header">
             <div class="row">
                 <div class="col-sm-4">
@@ -183,7 +187,7 @@
 
                 </div>
                 <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-                <router-link to="/">Back to employee list</router-link>
+                <router-link to="/employeeList">Back to employee list</router-link>
             </div>
         </div>
     </section>
@@ -193,6 +197,7 @@
 <template id="employee-edit">
 
     <section>
+        <nav-bar></nav-bar>
 
         <header class="page-header">
             <div class="row">
@@ -224,6 +229,8 @@
 <template id="employee-delete">
 
     <section>
+        <nav-bar></nav-bar>
+
         <header class="page-header">
             <div class="row">
                 <div class="col-sm-4">
@@ -231,10 +238,10 @@
                 </div>
             </div>
         </header>
-        <form v-on:submit="deleteEmployee">
+        <form v-on:submit.prevent="deleteEmployee">
             <p>The action cannot be undone.</p>
             <button type="submit" class="btn btn-danger">Delete</button>
-            <router-link to="/" class="btn btn-default">Cancel</router-link>
+            <router-link to="/employeeList" class="btn btn-default">Cancel</router-link>
         </form>
     </section>
 </template>

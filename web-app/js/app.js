@@ -38,8 +38,10 @@ function findEmployee (employeeId) {
 };
 
 function findEmployeeKey (employeeId) {
+    console.log("employee id " + employeeId)
     for (var key = 0; key < employees.length; key++) {
         if (employees[key].id == employeeId) {
+            console.log("key :  " + key)
             return key;
         }
     }
@@ -113,7 +115,7 @@ var Login = Vue.extend({
                             params: { message: 'Successfully updated' }
                         });
                     }else{
-                        _this.errorMessage = "Invalid Credentials"
+                        _this.errorMessage = "Incorrect username or password"
                     }
                 },
                 error:function (xhr, status, error) {
@@ -136,6 +138,9 @@ var EmployeeEdit = Vue.extend({
             var employee = this.employee;
             $.ajax({
                 url: "/vue/api/updateEmployee",
+                headers: {
+                    "Authorization": store.state.user.authToken
+                },
                 type: "POST",
                 async:false,
                 data:{
@@ -161,7 +166,7 @@ var EmployeeEdit = Vue.extend({
 
 Vue.component('error-message', {
     props: ['text'],
-    template: '<div class="alert alert-error">{{ text }}</div>'
+    template: '<div class="alert alert-danger">{{ text }}</div>'
 })
 
 
@@ -169,6 +174,11 @@ Vue.component('nav-bar', {
 template: '#nav',
     data: function(){
         return {role:store.state.user.role};
+    },
+    methods: {
+        logout: function () {
+
+        }
     }
 })
 
@@ -180,8 +190,29 @@ var EmployeeDelete = Vue.extend({
     },
     methods: {
         deleteEmployee: function () {
-            employees.splice(findEmployeeKey(this.$route.params.employee_id), 1);
-            router.push('/employeeList');
+            var _this = this;
+            var employee = _this.employee;
+            console.log("employee..... " + employee)
+            $.ajax({
+                url: "/vue/api/deleteEmployee",
+                headers: {
+                    "Authorization": store.state.user.authToken
+                },
+                type: "POST",
+                async:false,
+                data:{
+                    id: employee.id
+                },
+                success: function (data) {
+                    router.push({
+                        path: '/employeeList'
+                    });
+                },
+                error:function (xhr, status, error) {
+                    console.log("message....... " + xhr.responseText);
+                    _this.errorMessage = xhr.responseText
+                }
+            });
         }
     }
 });
@@ -194,14 +225,31 @@ var AddEmployee = Vue.extend({
     },
     methods: {
         createEmployee: function() {
+            var _this = this;
             var employee = this.employee;
-            employees.push({
-                id: Math.random().toString().split('.')[1],
-                name: employee.name,
-                profile: employee.profile,
-                age: employee.age
+            $.ajax({
+                url: "/vue/api/saveEmployee",
+                headers: {
+                    "Authorization": store.state.user.authToken
+                },
+                type: "POST",
+                async:false,
+                data:{
+                    name: employee.name,
+                    profile: employee.profile,
+                    age: employee.age
+                },
+                success: function (data) {
+                    router.push({
+                        path: '/employeeList',
+                        params: { message: 'Successfully created' }
+                    });
+                },
+                error:function (xhr, status, error) {
+                    console.log("message....... " + xhr.responseText);
+                    _this.errorMessage = xhr.responseText
+                }
             });
-            router.push('/employeeList');
         }
     }
 });
