@@ -5,7 +5,8 @@ const store = new Vuex.Store({
             loggedInStatus: true,
             authToken: '',
             role: ''
-        }
+        },
+        employees: []
     },
 
     mutations: {
@@ -27,20 +28,15 @@ const store = new Vuex.Store({
 
 })
 
-var employees = [
-
-];
-
-
 
 function findEmployee (employeeId) {
-    return employees[findEmployeeKey(employeeId)];
+    return store.state.employees[findEmployeeKey(employeeId)];
 };
 
 function findEmployeeKey (employeeId) {
     console.log("employee id " + employeeId)
-    for (var key = 0; key < employees.length; key++) {
-        if (employees[key].id == employeeId) {
+    for (var key = 0; key < store.state.employees.length; key++) {
+        if (store.state.employees[key].id == employeeId) {
             console.log("key :  " + key)
             return key;
         }
@@ -65,7 +61,7 @@ var List = Vue.extend({
                 }
             }
         });
-        employees = result
+        store.state.employees = result
         console.log(result);
         console.log("result..");
         return {result: result,searchKey: ''};

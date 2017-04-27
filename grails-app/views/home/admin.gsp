@@ -1,9 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: gaurav
-  Date: 16/3/17
-  Time: 5:18 PM
---%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
@@ -51,7 +45,6 @@
 <template id="employee-list">
     <section>
         <nav-bar></nav-bar>
-        {{message}}
         <header class="page-header">
             <div class="row">
                 <div class="col-sm-4">
@@ -140,7 +133,7 @@
                 <input type="number" class="form-control" id="add-price" v-model="employee.age"/>
             </div>
             <button type="submit" class="btn btn-primary">Create</button>
-            <router-link class="btn btn-default" :to="{path: '/'}">Cancel</router-link>
+            <router-link class="btn btn-default" :to="{path: '/employeeList'}">Cancel</router-link>
         </form>
     </section>
 </template>
@@ -221,7 +214,7 @@
                 <input type="number" class="form-control" id="edit-price" v-model="employee.age"/>
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
-            <router-link to="/" class="btn btn-default">Cancel</router-link>
+            <router-link to="/employeeList" class="btn btn-default">Cancel</router-link>
         </form>
     </section>
 </template>
@@ -296,5 +289,3 @@ input[type="password"] {
 </style>
 </body>
 </html>
-
-
