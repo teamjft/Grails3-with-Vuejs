@@ -63,6 +63,10 @@
                 <span class="glyphicon glyphicon-plus"></span>
                 Add employee
             </router-link>
+            <router-link class="btn btn-default" :to="{path: '/add-user'}">
+                <span class="glyphicon glyphicon-plus"></span>
+                Add User
+            </router-link>
         </div>
         <table class="table">
             <thead>

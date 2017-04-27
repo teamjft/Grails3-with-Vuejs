@@ -250,6 +250,44 @@ var AddEmployee = Vue.extend({
     }
 });
 
+var AddEmployee = Vue.extend({
+    template: '#add-user',
+    data: function () {
+        return {employee: {username: '', password: '', age: ''}
+        }
+    },
+    methods: {
+        createEmployee: function() {
+            var _this = this;
+            var employee = this.employee;
+            $.ajax({
+                url: "/vue/api/saveEmployee",
+                headers: {
+                    "Authorization": store.state.user.authToken
+                },
+                type: "POST",
+                async:false,
+                data:{
+                    name: employee.name,
+                    profile: employee.profile,
+                    age: employee.age
+                },
+                success: function (data) {
+                    router.push({
+                        path: '/employeeList',
+                        params: { message: 'Successfully created' }
+                    });
+                },
+                error:function (xhr, status, error) {
+                    console.log("message....... " + xhr.responseText);
+                    _this.errorMessage = xhr.responseText
+                }
+            });
+        }
+    }
+});
+
+
 var router = new VueRouter({
     routes: [{path: '/', component: Login},
         {path: '/employeeList', component: List},
