@@ -120,8 +120,8 @@ class ApiController {
     }
 
     @Transactional
-    def deleteEmployee(Employee employeeInstance){
-
+    def deleteEmployee(){
+        Employee employeeInstance= Employee.findById(params.id)
         if(!employeeInstance){
             response.status = 500
             render('No employee found with the given ID')
@@ -130,7 +130,7 @@ class ApiController {
 
         employeeInstance.delete()
         response.status = 200
-        render('Employee successfully updated')
+        render('Employee successfully deleted')
         return
     }
 }

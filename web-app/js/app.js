@@ -186,7 +186,7 @@ template: '#nav',
 var EmployeeDelete = Vue.extend({
     template: '#employee-delete',
     data: function () {
-        return {employee: findEmployee(this.$route.params.employee_id)};
+        return {employee: findEmployee(this.$route.params.employee_id),errorMessage:''};
     },
     methods: {
         deleteEmployee: function () {

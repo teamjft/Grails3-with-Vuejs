@@ -230,7 +230,6 @@
 
     <section>
         <nav-bar></nav-bar>
-
         <header class="page-header">
             <div class="row">
                 <div class="col-sm-4">
@@ -238,6 +237,7 @@
                 </div>
             </div>
         </header>
+        <error-message v-if="errorMessage" v-bind:text="errorMessage"> </error-message>
         <form v-on:submit.prevent="deleteEmployee">
             <p>The action cannot be undone.</p>
             <button type="submit" class="btn btn-danger">Delete</button>
